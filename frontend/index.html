@@ -1,0 +1,565 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ResearchX-AI</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #0b1020;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            width: 100%;
+            padding: 22px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #202943;
+            background: #0b1020;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: #6c8cff;
+        }
+
+        .badge {
+            padding: 8px 14px;
+            border: 1px solid #344166;
+            border-radius: 20px;
+            color: #aeb9d6;
+            font-size: 13px;
+        }
+
+        .hero {
+            max-width: 1000px;
+            margin: 80px auto 40px;
+            padding: 0 25px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: #718cff;
+        }
+
+        .hero p {
+            color: #aab3c9;
+            font-size: 18px;
+            line-height: 1.6;
+            max-width: 700px;
+            margin: auto;
+        }
+
+        .research-box {
+            max-width: 850px;
+            margin: 45px auto;
+            padding: 25px;
+            background: #11182d;
+            border: 1px solid #263354;
+            border-radius: 18px;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin-bottom: 10px;
+            color: #cbd4ec;
+            font-weight: 600;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 110px;
+            resize: vertical;
+            background: #080d1b;
+            color: white;
+            border: 1px solid #303d60;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: #718cff;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            padding: 14px 22px;
+        }
+
+        .generate-btn {
+            width: 100%;
+            margin-top: 18px;
+            background: #667dff;
+            color: white;
+        }
+
+        .generate-btn:hover {
+            background: #7890ff;
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .progress {
+            display: none;
+            max-width: 850px;
+            margin: 25px auto;
+            padding: 25px;
+            background: #11182d;
+            border: 1px solid #263354;
+            border-radius: 18px;
+            text-align: left;
+        }
+
+        .progress h3 {
+            margin-bottom: 20px;
+        }
+
+        .step {
+            padding: 13px;
+            margin: 8px 0;
+            border-radius: 9px;
+            background: #0b1020;
+            color: #8f9ab7;
+        }
+
+        .step.active {
+            color: #ffffff;
+            border-left: 3px solid #718cff;
+        }
+
+        .step.done {
+            color: #72e6a8;
+        }
+
+        .report {
+            display: none;
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 35px;
+            background: #ffffff;
+            color: #202633;
+            border-radius: 18px;
+            text-align: left;
+            line-height: 1.7;
+        }
+
+        .report h1,
+        .report h2,
+        .report h3 {
+            margin-top: 25px;
+            margin-bottom: 12px;
+            color: #151b2c;
+        }
+
+        .report p {
+            margin-bottom: 12px;
+        }
+
+        .report li {
+            margin-left: 25px;
+            margin-bottom: 8px;
+        }
+
+        .downloads {
+            display: none;
+            max-width: 850px;
+            margin: 30px auto 70px;
+            gap: 15px;
+        }
+
+        .download-btn {
+            flex: 1;
+            background: #17213a;
+            color: white;
+            border: 1px solid #344166;
+        }
+
+        .download-btn:hover {
+            background: #253252;
+        }
+
+        .error {
+            display: none;
+            max-width: 850px;
+            margin: 20px auto;
+            padding: 15px;
+            background: #3b1720;
+            border: 1px solid #7d3040;
+            border-radius: 10px;
+            color: #ffb7c0;
+        }
+
+        footer {
+            text-align: center;
+            color: #65708d;
+            padding: 30px;
+            border-top: 1px solid #202943;
+        }
+
+        @media (max-width: 700px) {
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .downloads {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="logo">Research<span>X</span>-AI</div>
+        <div class="badge">AI-Powered Research Assistant</div>
+    </nav>
+
+
+    <section class="hero">
+
+        <h1>
+            Research, <span>Powered by AI.</span>
+        </h1>
+
+        <p>
+            Generate evidence-based research reports using
+            AI-powered research, fact checking and synthesis.
+        </p>
+
+        <div class="research-box">
+
+            <label for="topic">
+                Research Topic
+            </label>
+
+            <textarea
+                id="topic"
+                placeholder="Example: Impact of Generative AI on Data Science Jobs"
+            ></textarea>
+
+            <button
+                id="generateBtn"
+                class="generate-btn"
+                onclick="generateResearch()"
+            >
+                Generate Research
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <section id="progress" class="progress">
+
+        <h3>Research Pipeline</h3>
+
+        <div id="step1" class="step">
+             Researcher Agent
+        </div>
+
+        <div id="step2" class="step">
+             Fact Checker Agent
+        </div>
+
+        <div id="step3" class="step">
+             Synthesis Agent
+        </div>
+
+        <div id="step4" class="step">
+             PDF Report
+        </div>
+
+        <div id="step5" class="step">
+             PowerPoint Presentation
+        </div>
+
+    </section>
+
+
+    <div id="error" class="error"></div>
+
+
+    <section id="report" class="report">
+
+        <h2>Final Research Report</h2>
+
+        <div id="reportContent"></div>
+
+    </section>
+
+
+    <section id="downloads" class="downloads">
+
+        <button
+            id="pdfBtn"
+            class="download-btn"
+            onclick="downloadFile('pdf')"
+        >
+             Download PDF
+        </button>
+
+        <button
+            id="pptBtn"
+            class="download-btn"
+            onclick="downloadFile('ppt')"
+        >
+             Download PowerPoint
+        </button>
+
+    </section>
+
+
+    <footer>
+        ResearchX-AI · AI-Powered Research Assistant
+    </footer>
+
+
+    <script>
+
+        let pdfPath = "";
+        let pptPath = "";
+
+        async function generateResearch() {
+
+            const topic =
+                document.getElementById("topic").value.trim();
+
+            const button =
+                document.getElementById("generateBtn");
+
+            const progress =
+                document.getElementById("progress");
+
+            const errorBox =
+                document.getElementById("error");
+
+            const report =
+                document.getElementById("report");
+
+            const downloads =
+                document.getElementById("downloads");
+
+
+            if (!topic) {
+
+                alert("Please enter a research topic.");
+
+                return;
+            }
+
+
+            button.disabled = true;
+
+            button.innerText = "Researching...";
+
+            progress.style.display = "block";
+
+            report.style.display = "none";
+
+            downloads.style.display = "none";
+
+            errorBox.style.display = "none";
+
+
+            setActive("step1");
+
+
+            try {
+
+                const response = await fetch(
+                    "http://127.0.0.1:5000/research",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            topic: topic
+                        })
+                    }
+                );
+
+
+                const data = await response.json();
+
+
+                if (!data.success) {
+
+                    throw new Error(
+                        data.error || "Research failed."
+                    );
+
+                }
+
+
+                completeStep("step1");
+
+                completeStep("step2");
+
+                completeStep("step3");
+
+                completeStep("step4");
+
+                completeStep("step5");
+
+
+                document.getElementById(
+                    "reportContent"
+                ).innerHTML = formatReport(data.report);
+
+
+                report.style.display = "block";
+
+
+                pdfPath = data.pdf;
+
+                pptPath = data.ppt;
+
+                downloads.style.display = "flex";
+
+
+            } catch (error) {
+
+                errorBox.innerText =
+                    "❌ " + error.message;
+
+                errorBox.style.display = "block";
+
+            }
+
+
+            button.disabled = false;
+
+            button.innerText = "Generate Research";
+        }
+
+
+        function setActive(id) {
+
+            document
+                .getElementById(id)
+                .classList.add("active");
+
+        }
+
+
+        function completeStep(id) {
+
+            const element =
+                document.getElementById(id);
+
+            element.classList.remove("active");
+
+            element.classList.add("done");
+
+            element.innerHTML =
+                "✓ " + element.innerText.replace(
+                    /🔎|🛡️|🧠|📄|📊/g,
+                    ""
+                );
+
+        }
+
+
+        function formatReport(text) {
+
+            return text
+
+                .replace(/^# (.*$)/gim, "<h1>$1</h1>")
+
+                .replace(/^## (.*$)/gim, "<h2>$1</h2>")
+
+                .replace(/^### (.*$)/gim, "<h3>$1</h3>")
+
+                .replace(
+                    /\*\*(.*?)\*\*/g,
+                    "<strong>$1</strong>"
+                )
+
+                .replace(
+                    /^\* (.*$)/gim,
+                    "<li>$1</li>"
+                )
+
+                .replace(
+                    /\n\n/g,
+                    "<br><br>"
+                )
+
+                .replace(
+                    /\n/g,
+                    "<br>"
+                );
+        }
+
+
+        function downloadFile(type) {
+
+            let path =
+                type === "pdf"
+                    ? pdfPath
+                    : pptPath;
+
+
+            if (!path) {
+
+                alert("File is not available.");
+
+                return;
+            }
+
+
+            const link =
+                document.createElement("a");
+
+            link.href =
+                "http://127.0.0.1:5000/" + path;
+
+            link.target = "_blank";
+
+            link.click();
+
+        }
+
+    </script>
+
+</body>
+</html>
+
