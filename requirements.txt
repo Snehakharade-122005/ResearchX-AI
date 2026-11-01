@@ -1,0 +1,9 @@
+streamlit
+python-dotenv
+tavily-python
+google-genai
+langchain-google-genai
+flask
+flask-cors
+python-pptx
+reportlab
