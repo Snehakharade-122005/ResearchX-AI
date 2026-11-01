@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ResearchX-AI</title>
+    <title>ResearchX-AI | AI Research Assistant</title>
 
     <style>
         * {
@@ -14,228 +13,855 @@
             padding: 0;
         }
 
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #3730a3;
+            --purple: #7c3aed;
+
+            --bg: #f5f7fb;
+            --card: #ffffff;
+
+            --text: #111827;
+            --text-secondary: #4b5563;
+            --muted: #6b7280;
+
+            --border: #e5e7eb;
+
+            --green: #16a34a;
+            --red: #dc2626;
+            --orange: #ea580c;
+        }
+
         body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #0b1020;
-            color: #ffffff;
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 10% 0%,
+                    #eef2ff 0,
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 90% 5%,
+                    #f3e8ff 0,
+                    transparent 25%
+                ),
+                var(--bg);
+
+            color: var(--text);
             min-height: 100vh;
         }
 
+        /* =========================
+           NAVBAR
+        ========================= */
+
         .navbar {
-            width: 100%;
-            padding: 22px 7%;
+            height: 64px;
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #202943;
-            background: #0b1020;
+            justify-content: space-between;
+
+            padding: 0 5%;
+
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(12px);
+
+            border-bottom: 1px solid var(--border);
         }
 
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            font-size: 19px;
+            font-weight: 800;
         }
 
-        .logo span {
-            color: #6c8cff;
+        .brand-icon {
+            width: 36px;
+            height: 36px;
+
+            border-radius: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: linear-gradient(
+                135deg,
+                var(--primary),
+                var(--purple)
+            );
+
+            color: white;
+            font-size: 14px;
+            font-weight: 800;
         }
 
-        .badge {
-            padding: 8px 14px;
-            border: 1px solid #344166;
-            border-radius: 20px;
-            color: #aeb9d6;
-            font-size: 13px;
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            color: var(--muted);
+            font-size: 12px;
         }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+
+            border-radius: 50%;
+            background: #22c55e;
+
+            box-shadow:
+                0 0 0 4px #dcfce7;
+        }
+
+        /* =========================
+           CONTAINER
+        ========================= */
+
+        .container {
+            width: 92%;
+            max-width: 1180px;
+
+            margin: auto;
+
+            padding: 42px 0 60px;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
 
         .hero {
-            max-width: 1000px;
-            margin: 80px auto 40px;
-            padding: 0 25px;
             text-align: center;
+
+            max-width: 760px;
+
+            margin: 0 auto 35px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            padding: 6px 12px;
+
+            border-radius: 30px;
+
+            background: #eef2ff;
+            color: var(--primary);
+
+            font-size: 12px;
+            font-weight: 700;
+
+            margin-bottom: 14px;
         }
 
         .hero h1 {
-            font-size: 52px;
-            line-height: 1.1;
-            margin-bottom: 20px;
-        }
+            font-size: clamp(34px, 5vw, 54px);
 
-        .hero h1 span {
-            color: #718cff;
+            line-height: 1.08;
+
+            letter-spacing: -1.5px;
+
+            margin-bottom: 14px;
+
+            background: linear-gradient(
+                135deg,
+                #111827,
+                #4f46e5,
+                #7c3aed
+            );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .hero p {
-            color: #aab3c9;
-            font-size: 18px;
-            line-height: 1.6;
-            max-width: 700px;
+            max-width: 650px;
             margin: auto;
+
+            color: var(--muted);
+
+            font-size: 15px;
+            line-height: 1.65;
         }
 
-        .research-box {
-            max-width: 850px;
-            margin: 45px auto;
-            padding: 25px;
-            background: #11182d;
-            border: 1px solid #263354;
+        /* =========================
+           TOPIC INPUT
+        ========================= */
+
+        .topic-card {
+            background: white;
+
+            border: 1px solid var(--border);
+
             border-radius: 18px;
+
+            padding: 22px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 10px 35px rgba(31,41,55,0.06);
         }
 
-        label {
+        .topic-label {
             display: block;
-            text-align: left;
-            margin-bottom: 10px;
-            color: #cbd4ec;
-            font-weight: 600;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            margin-bottom: 9px;
         }
 
-        textarea {
-            width: 100%;
-            min-height: 110px;
-            resize: vertical;
-            background: #080d1b;
-            color: white;
-            border: 1px solid #303d60;
-            border-radius: 12px;
-            padding: 16px;
-            font-size: 16px;
+        .input-wrapper {
+            display: flex;
+            gap: 10px;
+        }
+
+        #topic {
+            flex: 1;
+
+            height: 48px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 11px;
+
+            padding: 0 15px;
+
+            font-size: 14px;
+
             outline: none;
+
+            color: var(--text);
+
+            transition: 0.2s;
         }
 
-        textarea:focus {
-            border-color: #718cff;
-        }
+        #topic:focus {
+            border-color: var(--primary);
 
-        button {
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 10px;
-            padding: 14px 22px;
+            box-shadow:
+                0 0 0 3px rgba(79,70,229,0.1);
         }
 
         .generate-btn {
-            width: 100%;
-            margin-top: 18px;
-            background: #667dff;
+            height: 48px;
+
+            padding: 0 22px;
+
+            border: none;
+
+            border-radius: 11px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--purple)
+                );
+
             color: white;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
+            white-space: nowrap;
         }
 
         .generate-btn:hover {
-            background: #7890ff;
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 7px 18px rgba(79,70,229,0.25);
         }
 
         .generate-btn:disabled {
-            opacity: 0.6;
+            opacity: 0.65;
             cursor: not-allowed;
+            transform: none;
         }
 
-        .progress {
-            display: none;
-            max-width: 850px;
-            margin: 25px auto;
-            padding: 25px;
-            background: #11182d;
-            border: 1px solid #263354;
-            border-radius: 18px;
-            text-align: left;
-        }
-
-        .progress h3 {
-            margin-bottom: 20px;
-        }
-
-        .step {
-            padding: 13px;
-            margin: 8px 0;
-            border-radius: 9px;
-            background: #0b1020;
-            color: #8f9ab7;
-        }
-
-        .step.active {
-            color: #ffffff;
-            border-left: 3px solid #718cff;
-        }
-
-        .step.done {
-            color: #72e6a8;
-        }
-
-        .report {
-            display: none;
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 35px;
-            background: #ffffff;
-            color: #202633;
-            border-radius: 18px;
-            text-align: left;
-            line-height: 1.7;
-        }
-
-        .report h1,
-        .report h2,
-        .report h3 {
-            margin-top: 25px;
-            margin-bottom: 12px;
-            color: #151b2c;
-        }
-
-        .report p {
-            margin-bottom: 12px;
-        }
-
-        .report li {
-            margin-left: 25px;
-            margin-bottom: 8px;
-        }
-
-        .downloads {
-            display: none;
-            max-width: 850px;
-            margin: 30px auto 70px;
-            gap: 15px;
-        }
-
-        .download-btn {
-            flex: 1;
-            background: #17213a;
-            color: white;
-            border: 1px solid #344166;
-        }
-
-        .download-btn:hover {
-            background: #253252;
-        }
+        /* =========================
+           ERROR
+        ========================= */
 
         .error {
             display: none;
-            max-width: 850px;
-            margin: 20px auto;
-            padding: 15px;
-            background: #3b1720;
-            border: 1px solid #7d3040;
+
+            margin-top: 12px;
+
+            padding: 11px 13px;
+
             border-radius: 10px;
-            color: #ffb7c0;
+
+            background: #fef2f2;
+
+            border: 1px solid #fecaca;
+
+            color: #991b1b;
+
+            font-size: 13px;
         }
+
+        /* =========================
+           LOADING
+        ========================= */
+
+        .loading {
+            display: none;
+
+            text-align: center;
+
+            padding: 18px 5px 3px;
+
+            color: var(--muted);
+
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .loader {
+            width: 24px;
+            height: 24px;
+
+            border: 3px solid #e5e7eb;
+            border-top-color: var(--primary);
+
+            border-radius: 50%;
+
+            animation: spin 0.8s linear infinite;
+
+            margin: 0 auto 8px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* =========================
+           SECTION CARD
+        ========================= */
+
+        .section-card {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 18px;
+
+            padding: 23px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 8px 28px rgba(0,0,0,0.045);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 18px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .section-subtitle {
+            color: var(--muted);
+
+            font-size: 12px;
+
+            margin-top: 3px;
+        }
+
+        /* =========================
+           PIPELINE
+        ========================= */
+
+        .steps {
+            display: grid;
+
+            grid-template-columns:
+                repeat(6, 1fr);
+
+            gap: 10px;
+        }
+
+        .step {
+            min-height: 90px;
+
+            padding: 13px 8px;
+
+            border: 1px solid var(--border);
+
+            border-radius: 13px;
+
+            background: #fafafa;
+
+            display: flex;
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
+            gap: 7px;
+
+            transition: 0.25s;
+        }
+
+        .step-icon {
+            width: 31px;
+            height: 31px;
+
+            border-radius: 9px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #eef2ff;
+            color: var(--primary);
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .step-name {
+            font-size: 11px;
+            font-weight: 700;
+
+            color: #4b5563;
+
+            line-height: 1.25;
+        }
+
+        .step.active {
+            border-color: #a5b4fc;
+
+            background: #eef2ff;
+
+            transform: translateY(-2px);
+        }
+
+        .step.active .step-icon {
+            background: var(--primary);
+            color: white;
+        }
+
+        .step.done {
+            border-color: #bbf7d0;
+            background: #f0fdf4;
+        }
+
+        .step.done .step-icon {
+            background: var(--green);
+            color: white;
+        }
+
+        .step.done .step-name {
+            color: #166534;
+        }
+
+        /* =========================
+           PLAN
+        ========================= */
+
+        .plan-box {
+            background:
+                linear-gradient(
+                    135deg,
+                    #f8faff,
+                    #f7f5ff
+                );
+
+            border: 1px solid #e0e7ff;
+
+            border-radius: 13px;
+
+            padding: 18px;
+
+            color: #374151;
+
+            font-size: 13px;
+
+            line-height: 1.7;
+
+            overflow-x: auto;
+
+            max-height: 650px;
+            overflow-y: auto;
+        }
+
+        /* =========================
+           STATS
+        ========================= */
+
+        .stats-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 12px;
+        }
+
+        .stat-card {
+            border: 1px solid var(--border);
+
+            border-radius: 13px;
+
+            padding: 16px;
+
+            background: #fafafa;
+        }
+
+        .stat-number {
+            font-size: 24px;
+
+            font-weight: 800;
+
+            color: var(--primary);
+
+            margin-bottom: 3px;
+        }
+
+        .stat-label {
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+        /* =========================
+           REPORT
+        ========================= */
+
+        .report-box {
+            color: #374151;
+
+            font-size: 14px;
+
+            line-height: 1.75;
+
+            max-width: 100%;
+
+            overflow-wrap: anywhere;
+        }
+
+        .report-box h1 {
+            font-size: 27px;
+
+            color: #111827;
+
+            margin: 28px 0 12px;
+
+            line-height: 1.25;
+        }
+
+        .report-box h2 {
+            font-size: 20px;
+
+            color: #312e81;
+
+            margin: 28px 0 11px;
+
+            padding-bottom: 7px;
+
+            border-bottom: 1px solid var(--border);
+
+            line-height: 1.3;
+        }
+
+        .report-box h3 {
+            font-size: 16px;
+
+            color: #4338ca;
+
+            margin: 20px 0 8px;
+        }
+
+        .report-box p {
+            margin-bottom: 11px;
+        }
+
+        .report-box ul {
+            margin: 8px 0 15px 22px;
+        }
+
+        .report-box ol {
+            margin: 8px 0 15px 22px;
+        }
+
+        .report-box li {
+            margin-bottom: 6px;
+        }
+
+        .report-box strong {
+            color: #111827;
+        }
+
+        .report-box table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            margin: 15px 0 20px;
+
+            font-size: 12px;
+
+            display: block;
+
+            overflow-x: auto;
+        }
+
+        .report-box th,
+        .report-box td {
+            border: 1px solid #e5e7eb;
+
+            padding: 9px 10px;
+
+            text-align: left;
+
+            white-space: nowrap;
+        }
+
+        .report-box th {
+            background: #f3f4f6;
+
+            font-weight: 700;
+        }
+
+        .report-box blockquote {
+            border-left: 3px solid var(--primary);
+
+            padding: 8px 14px;
+
+            margin: 12px 0;
+
+            background: #f8faff;
+
+            color: #4b5563;
+        }
+
+        .report-box code {
+            background: #f3f4f6;
+
+            padding: 2px 5px;
+
+            border-radius: 4px;
+
+            font-size: 12px;
+        }
+
+        .report-box pre {
+            background: #111827;
+
+            color: #f9fafb;
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+            overflow-x: auto;
+
+            margin: 15px 0;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+        .source-link {
+            display: block;
+
+            font-size: 12px;
+
+            color: #4f46e5;
+
+            text-decoration: none;
+
+            margin: 4px 0;
+
+            word-break: break-all;
+
+            line-height: 1.5;
+        }
+
+        .source-link:hover {
+            text-decoration: underline;
+        }
+
+        /* =========================
+           DOWNLOADS
+        ========================= */
+
+        .download-grid {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 12px;
+        }
+
+        .download-btn {
+            border: none;
+
+            border-radius: 12px;
+
+            padding: 14px;
+
+            color: white;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .pdf-btn {
+            background:
+                linear-gradient(
+                    135deg,
+                    #dc2626,
+                    #ef4444
+                );
+        }
+
+        .ppt-btn {
+            background:
+                linear-gradient(
+                    135deg,
+                    #ea580c,
+                    #f97316
+                );
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
 
         footer {
             text-align: center;
-            color: #65708d;
-            padding: 30px;
-            border-top: 1px solid #202943;
+
+            padding: 25px;
+
+            color: var(--muted);
+
+            font-size: 11px;
         }
 
-        @media (max-width: 700px) {
-            .hero h1 {
-                font-size: 38px;
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 950px) {
+
+            .steps {
+                grid-template-columns:
+                    repeat(3, 1fr);
             }
 
-            .downloads {
+            .stats-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            .navbar {
+                padding: 0 18px;
+            }
+
+            .status {
+                display: none;
+            }
+
+            .container {
+                width: 94%;
+                padding-top: 30px;
+            }
+
+            .input-wrapper {
                 flex-direction: column;
+            }
+
+            .generate-btn {
+                width: 100%;
+            }
+
+            .steps {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .download-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-card,
+            .topic-card {
+                padding: 17px;
+            }
+
+            .report-box {
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 430px) {
+
+            .hero h1 {
+                font-size: 34px;
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -243,323 +869,1305 @@
 
 <body>
 
-    <nav class="navbar">
-        <div class="logo">Research<span>X</span>-AI</div>
-        <div class="badge">AI-Powered Research Assistant</div>
-    </nav>
+<!-- =========================
+     NAVBAR
+========================= -->
 
+<nav class="navbar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            RX
+        </div>
+
+        <span>
+            ResearchX-AI
+        </span>
+
+    </div>
+
+    <div class="status">
+
+        <span class="status-dot"></span>
+
+        AI Research System Online
+
+    </div>
+
+</nav>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="container">
+
+    <!-- HERO -->
 
     <section class="hero">
 
+        <div class="hero-badge">
+            ✦ Multi-Agent Research Platform
+        </div>
+
         <h1>
-            Research, <span>Powered by AI.</span>
+            Research Smarter.<br>
+            Discover Faster.
         </h1>
 
         <p>
-            Generate evidence-based research reports using
-            AI-powered research, fact checking and synthesis.
+            ResearchX-AI uses multiple AI agents to
+            research, verify, synthesize and generate
+            professional research reports automatically.
         </p>
 
-        <div class="research-box">
+    </section>
 
-            <label for="topic">
-                Research Topic
-            </label>
 
-            <textarea
+    <!-- =========================
+         TOPIC
+    ========================= -->
+
+    <section class="topic-card">
+
+        <label
+            class="topic-label"
+            for="topic"
+        >
+            What would you like to research?
+        </label>
+
+        <div class="input-wrapper">
+
+            <input
                 id="topic"
+                type="text"
                 placeholder="Example: Impact of Generative AI on Data Science Jobs"
-            ></textarea>
+                autocomplete="off"
+            >
 
             <button
-                id="generateBtn"
+                id="generateButton"
                 class="generate-btn"
                 onclick="generateResearch()"
             >
-                Generate Research
+                ✨ Generate Research
+            </button>
+
+        </div>
+
+        <div
+            id="errorBox"
+            class="error"
+        ></div>
+
+        <div
+            id="loading"
+            class="loading"
+        >
+
+            <div class="loader"></div>
+
+            AI agents are researching your topic...
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         PIPELINE
+    ========================= -->
+
+    <section
+        id="pipeline"
+        class="section-card"
+        style="display:none;"
+    >
+
+        <div class="section-header">
+
+            <div>
+
+                <div class="section-title">
+                    ⚙️ AI Research Pipeline
+                </div>
+
+                <div class="section-subtitle">
+                    Six specialized agents working together
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="steps">
+
+            <div id="step1" class="step">
+                <div class="step-icon">01</div>
+                <div class="step-name">
+                    Research Planner
+                </div>
+            </div>
+
+            <div id="step2" class="step">
+                <div class="step-icon">02</div>
+                <div class="step-name">
+                    Researcher
+                </div>
+            </div>
+
+            <div id="step3" class="step">
+                <div class="step-icon">03</div>
+                <div class="step-name">
+                    Fact Checker
+                </div>
+            </div>
+
+            <div id="step4" class="step">
+                <div class="step-icon">04</div>
+                <div class="step-name">
+                    Synthesis Agent
+                </div>
+            </div>
+
+            <div id="step5" class="step">
+                <div class="step-icon">05</div>
+                <div class="step-name">
+                    PDF Generator
+                </div>
+            </div>
+
+            <div id="step6" class="step">
+                <div class="step-icon">06</div>
+                <div class="step-name">
+                    PowerPoint
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         RESEARCH PLAN
+    ========================= -->
+
+    <section
+        id="planCard"
+        class="section-card"
+        style="display:none;"
+    >
+
+        <div class="section-header">
+
+            <div>
+
+                <div class="section-title">
+                    📋 Research Plan
+                </div>
+
+                <div class="section-subtitle">
+                    AI-generated research strategy
+                </div>
+
+            </div>
+
+        </div>
+
+        <div
+            id="planContent"
+            class="plan-box"
+        ></div>
+
+    </section>
+
+
+    <!-- =========================
+         STATS
+    ========================= -->
+
+    <section
+        id="statsCard"
+        class="section-card"
+        style="display:none;"
+    >
+
+        <div class="section-header">
+
+            <div>
+
+                <div class="section-title">
+                    📊 Research Overview
+                </div>
+
+                <div class="section-subtitle">
+                    Generated research metrics
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+
+                <div
+                    id="sourceCount"
+                    class="stat-number"
+                >
+                    0
+                </div>
+
+                <div class="stat-label">
+                    Research Sources
+                </div>
+
+            </div>
+
+            <div class="stat-card">
+
+                <div
+                    id="agentCount"
+                    class="stat-number"
+                >
+                    6
+                </div>
+
+                <div class="stat-label">
+                    AI Pipeline Stages
+                </div>
+
+            </div>
+
+            <div class="stat-card">
+
+                <div
+                    id="outputCount"
+                    class="stat-number"
+                >
+                    2
+                </div>
+
+                <div class="stat-label">
+                    Generated Files
+                </div>
+
+            </div>
+
+            <div class="stat-card">
+
+                <div
+                    id="statusText"
+                    class="stat-number"
+                >
+                    ✓
+                </div>
+
+                <div class="stat-label">
+                    Research Status
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         REPORT
+    ========================= -->
+
+    <section
+        id="reportCard"
+        class="section-card"
+        style="display:none;"
+    >
+
+        <div class="section-header">
+
+            <div>
+
+                <div class="section-title">
+                    📄 Final Research Report
+                </div>
+
+                <div class="section-subtitle">
+                    Evidence-based AI research synthesis
+                </div>
+
+            </div>
+
+        </div>
+
+        <div
+            id="reportContent"
+            class="report-box"
+        ></div>
+
+    </section>
+
+
+    <!-- =========================
+         DOWNLOADS
+    ========================= -->
+
+    <section
+        id="downloads"
+        class="section-card"
+        style="display:none;"
+    >
+
+        <div class="section-header">
+
+            <div>
+
+                <div class="section-title">
+                    📥 Download Research
+                </div>
+
+                <div class="section-subtitle">
+                    Export your research in professional formats
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="download-grid">
+
+            <button
+                class="download-btn pdf-btn"
+                onclick="downloadFile('pdf')"
+            >
+                📄 Download PDF Report
+            </button>
+
+            <button
+                class="download-btn ppt-btn"
+                onclick="downloadFile('ppt')"
+            >
+                📊 Download PowerPoint
             </button>
 
         </div>
 
     </section>
 
-
-    <section id="progress" class="progress">
-
-        <h3>Research Pipeline</h3>
-
-        <div id="step1" class="step">
-             Researcher Agent
-        </div>
-
-        <div id="step2" class="step">
-             Fact Checker Agent
-        </div>
-
-        <div id="step3" class="step">
-             Synthesis Agent
-        </div>
-
-        <div id="step4" class="step">
-             PDF Report
-        </div>
-
-        <div id="step5" class="step">
-             PowerPoint Presentation
-        </div>
-
-    </section>
+</main>
 
 
-    <div id="error" class="error"></div>
+<footer>
+    ResearchX-AI · Multi-Agent AI Research Assistant
+</footer>
 
 
-    <section id="report" class="report">
+<script>
 
-        <h2>Final Research Report</h2>
+    /* =========================================================
+       GLOBAL VARIABLES
+    ========================================================= */
 
-        <div id="reportContent"></div>
-
-    </section>
-
-
-    <section id="downloads" class="downloads">
-
-        <button
-            id="pdfBtn"
-            class="download-btn"
-            onclick="downloadFile('pdf')"
-        >
-             Download PDF
-        </button>
-
-        <button
-            id="pptBtn"
-            class="download-btn"
-            onclick="downloadFile('ppt')"
-        >
-             Download PowerPoint
-        </button>
-
-    </section>
+    let pdfPath = null;
+    let pptPath = null;
 
 
-    <footer>
-        ResearchX-AI · AI-Powered Research Assistant
-    </footer>
+    /* =========================================================
+       GENERATE RESEARCH
+    ========================================================= */
+
+    async function generateResearch() {
+
+        const topic =
+            document.getElementById("topic").value.trim();
+
+        const button =
+            document.getElementById("generateButton");
+
+        const errorBox =
+            document.getElementById("errorBox");
+
+        const loading =
+            document.getElementById("loading");
+
+        const pipeline =
+            document.getElementById("pipeline");
+
+        const planCard =
+            document.getElementById("planCard");
+
+        const statsCard =
+            document.getElementById("statsCard");
+
+        const reportCard =
+            document.getElementById("reportCard");
+
+        const downloads =
+            document.getElementById("downloads");
 
 
-    <script>
+        /* =========================
+           VALIDATION
+        ========================= */
 
-        let pdfPath = "";
-        let pptPath = "";
+        if (!topic) {
 
-        async function generateResearch() {
+            errorBox.innerText =
+                "Please enter a research topic.";
 
-            const topic =
-                document.getElementById("topic").value.trim();
+            errorBox.style.display = "block";
 
-            const button =
-                document.getElementById("generateBtn");
-
-            const progress =
-                document.getElementById("progress");
-
-            const errorBox =
-                document.getElementById("error");
-
-            const report =
-                document.getElementById("report");
-
-            const downloads =
-                document.getElementById("downloads");
+            return;
+        }
 
 
-            if (!topic) {
+        errorBox.style.display = "none";
 
-                alert("Please enter a research topic.");
+        button.disabled = true;
 
-                return;
-            }
+        button.innerText =
+            "⏳ Generating...";
 
+        loading.style.display = "block";
 
-            button.disabled = true;
+        pipeline.style.display = "block";
 
-            button.innerText = "Researching...";
+        planCard.style.display = "none";
 
-            progress.style.display = "block";
+        statsCard.style.display = "none";
 
-            report.style.display = "none";
+        reportCard.style.display = "none";
 
-            downloads.style.display = "none";
+        downloads.style.display = "none";
 
-            errorBox.style.display = "none";
-
-
-            setActive("step1");
+        resetSteps();
 
 
-            try {
+        /* =========================
+           START PIPELINE ANIMATION
+        ========================= */
 
-                const response = await fetch(
+        activateStep("step1");
+
+
+        try {
+
+            /* =========================
+               API REQUEST
+            ========================= */
+
+            const response =
+                await fetch(
                     "http://127.0.0.1:5000/research",
                     {
                         method: "POST",
 
                         headers: {
-                            "Content-Type": "application/json"
+                            "Content-Type":
+                                "application/json"
                         },
 
-                        body: JSON.stringify({
-                            topic: topic
-                        })
+                        body:
+                            JSON.stringify({
+                                topic: topic
+                            })
                     }
                 );
 
 
-                const data = await response.json();
+            let data;
 
+            try {
 
-                if (!data.success) {
+                data =
+                    await response.json();
 
-                    throw new Error(
-                        data.error || "Research failed."
-                    );
+            } catch {
 
-                }
-
-
-                completeStep("step1");
-
-                completeStep("step2");
-
-                completeStep("step3");
-
-                completeStep("step4");
-
-                completeStep("step5");
-
-
-                document.getElementById(
-                    "reportContent"
-                ).innerHTML = formatReport(data.report);
-
-
-                report.style.display = "block";
-
-
-                pdfPath = data.pdf;
-
-                pptPath = data.ppt;
-
-                downloads.style.display = "flex";
-
-
-            } catch (error) {
-
-                errorBox.innerText =
-                    "❌ " + error.message;
-
-                errorBox.style.display = "block";
+                throw new Error(
+                    "Backend returned an invalid response."
+                );
 
             }
+
+
+            if (!response.ok || !data.success) {
+
+                throw new Error(
+                    data.error ||
+                    "Research generation failed."
+                );
+            }
+
+
+            /* =========================
+               COMPLETE PIPELINE
+            ========================= */
+
+            completeStep("step1");
+            activateStep("step2");
+
+            await smallDelay(150);
+
+            completeStep("step2");
+            activateStep("step3");
+
+            await smallDelay(150);
+
+            completeStep("step3");
+            activateStep("step4");
+
+            await smallDelay(150);
+
+            completeStep("step4");
+            activateStep("step5");
+
+            await smallDelay(150);
+
+            completeStep("step5");
+            activateStep("step6");
+
+            await smallDelay(150);
+
+            completeStep("step6");
+
+
+            /* =========================
+               RESEARCH PLAN
+            ========================= */
+
+            document.getElementById("planContent").innerHTML =
+                formatMarkdown(
+                    data.research_plan || ""
+                );
+
+            planCard.style.display = "block";
+
+
+            /* =========================
+               STATISTICS
+            ========================= */
+
+            let sourceCount = 0;
+
+            if (data.sources_count) {
+
+                sourceCount =
+                    data.sources_count;
+
+            } else if (
+                Array.isArray(data.sources)
+            ) {
+
+                sourceCount =
+                    data.sources.length;
+
+            } else {
+
+                sourceCount = 0;
+
+            }
+
+
+            document.getElementById("sourceCount").innerText =
+                sourceCount;
+
+
+            document.getElementById("agentCount").innerText =
+                "6";
+
+
+            document.getElementById("outputCount").innerText =
+                "2";
+
+
+            document.getElementById("statusText").innerText =
+                "✓";
+
+
+            statsCard.style.display = "block";
+
+
+            /* =========================
+               REPORT
+            ========================= */
+
+            document.getElementById("reportContent").innerHTML =
+                formatMarkdown(
+                    data.report || ""
+                );
+
+
+            reportCard.style.display = "block";
+
+
+            /* =========================
+               FILE PATHS
+            ========================= */
+
+            pdfPath =
+                data.pdf || null;
+
+            pptPath =
+                data.ppt || null;
+
+
+            downloads.style.display = "block";
+
+
+            loading.style.display = "none";
 
 
             button.disabled = false;
 
-            button.innerText = "Generate Research";
-        }
+            button.innerText =
+                "✓ Research Generated";
 
 
-        function setActive(id) {
+            /* =========================
+               SCROLL TO REPORT
+            ========================= */
 
-            document
-                .getElementById(id)
-                .classList.add("active");
+            setTimeout(() => {
 
-        }
+                reportCard.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
+            }, 300);
 
 
-        function completeStep(id) {
+        } catch (error) {
 
-            const element =
-                document.getElementById(id);
+            console.error(error);
 
-            element.classList.remove("active");
 
-            element.classList.add("done");
+            loading.style.display = "none";
 
-            element.innerHTML =
-                "✓ " + element.innerText.replace(
-                    /🔎|🛡️|🧠|📄|📊/g,
-                    ""
+
+            errorBox.innerText =
+                "❌ " +
+                (
+                    error.message ||
+                    "Something went wrong."
                 );
 
+
+            errorBox.style.display = "block";
+
+
+            button.disabled = false;
+
+            button.innerText =
+                "✨ Generate Research";
+
         }
 
+    }
 
-        function formatReport(text) {
 
-            return text
+    /* =========================================================
+       SMALL DELAY
+    ========================================================= */
 
-                .replace(/^# (.*$)/gim, "<h1>$1</h1>")
+    function smallDelay(ms) {
 
-                .replace(/^## (.*$)/gim, "<h2>$1</h2>")
+        return new Promise(
+            resolve => setTimeout(resolve, ms)
+        );
 
-                .replace(/^### (.*$)/gim, "<h3>$1</h3>")
+    }
 
-                .replace(
-                    /\*\*(.*?)\*\*/g,
-                    "<strong>$1</strong>"
-                )
 
-                .replace(
-                    /^\* (.*$)/gim,
-                    "<li>$1</li>"
-                )
+    /* =========================================================
+       RESET STEPS
+    ========================================================= */
 
-                .replace(
-                    /\n\n/g,
-                    "<br><br>"
-                )
+    function resetSteps() {
 
-                .replace(
-                    /\n/g,
-                    "<br>"
+        for (
+            let i = 1;
+            i <= 6;
+            i++
+        ) {
+
+            const step =
+                document.getElementById(
+                    "step" + i
                 );
+
+            if (!step) continue;
+
+            step.classList.remove("active");
+            step.classList.remove("done");
+
+
+            const icon =
+                step.querySelector(
+                    ".step-icon"
+                );
+
+            if (icon) {
+
+                icon.innerText =
+                    String(i).padStart(2, "0");
+
+            }
+
+        }
+
+    }
+
+
+    /* =========================================================
+       ACTIVATE STEP
+    ========================================================= */
+
+    function activateStep(id) {
+
+        const step =
+            document.getElementById(id);
+
+        if (!step) return;
+
+        step.classList.add("active");
+
+    }
+
+
+    /* =========================================================
+       COMPLETE STEP
+    ========================================================= */
+
+    function completeStep(id) {
+
+        const step =
+            document.getElementById(id);
+
+        if (!step) return;
+
+        step.classList.remove("active");
+
+        step.classList.add("done");
+
+
+        const icon =
+            step.querySelector(
+                ".step-icon"
+            );
+
+
+        if (icon) {
+
+            icon.innerText = "✓";
+
+        }
+
+    }
+
+
+    /* =========================================================
+       MARKDOWN FORMATTER
+    ========================================================= */
+
+    function formatMarkdown(text) {
+
+        if (!text) {
+
+            return `
+                <p>
+                    No content was generated.
+                </p>
+            `;
+
         }
 
 
-        function downloadFile(type) {
-
-            let path =
-                type === "pdf"
-                    ? pdfPath
-                    : pptPath;
+        let html =
+            escapeHtml(String(text));
 
 
-            if (!path) {
+        /* =========================
+           CODE BLOCKS
+        ========================= */
 
-                alert("File is not available.");
+        html =
+            html.replace(
+                /```([\s\S]*?)```/g,
+                function(match, code) {
 
-                return;
+                    return `
+                        <pre>${code.trim()}</pre>
+                    `;
+
+                }
+            );
+
+
+        /* =========================
+           HEADINGS
+        ========================= */
+
+        html =
+            html.replace(
+                /^### (.*)$/gim,
+                "<h3>$1</h3>"
+            );
+
+
+        html =
+            html.replace(
+                /^## (.*)$/gim,
+                "<h2>$1</h2>"
+            );
+
+
+        html =
+            html.replace(
+                /^# (.*)$/gim,
+                "<h1>$1</h1>"
+            );
+
+
+        /* =========================
+           BOLD
+        ========================= */
+
+        html =
+            html.replace(
+                /\*\*(.*?)\*\*/g,
+                "<strong>$1</strong>"
+            );
+
+
+        /* =========================
+           ITALIC
+        ========================= */
+
+        html =
+            html.replace(
+                /(?<!\*)\*([^*\n]+)\*(?!\*)/g,
+                "<em>$1</em>"
+            );
+
+
+        /* =========================
+           LINKS
+        ========================= */
+
+        html =
+            html.replace(
+                /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+                function(match, title, url) {
+
+                    return `
+                        <a
+                            class="source-link"
+                            href="${url}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            ${title}
+                        </a>
+                    `;
+
+                }
+            );
+
+
+        /* =========================
+           RAW URLS
+        ========================= */
+
+        html =
+            html.replace(
+                /(https?:\/\/[^\s<]+)/g,
+                function(match) {
+
+                    const cleanUrl =
+                        match.replace(
+                            /[.,;)\]]+$/,
+                            ""
+                        );
+
+                    return `
+                        <a
+                            class="source-link"
+                            href="${cleanUrl}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            ${cleanUrl}
+                        </a>
+                    `;
+
+                }
+            );
+
+
+        /* =========================
+           BULLET LISTS
+        ========================= */
+
+        html =
+            html.replace(
+                /(?:^|\n)((?:\s*[-*]\s+.+(?:\n|$))+)/g,
+                function(match, block) {
+
+                    const items =
+                        block
+                            .split("\n")
+                            .map(line =>
+                                line
+                                    .replace(
+                                        /^\s*[-*]\s+/,
+                                        ""
+                                    )
+                                    .trim()
+                            )
+                            .filter(Boolean);
+
+                    if (!items.length) {
+                        return match;
+                    }
+
+                    return `
+                        <ul>
+                            ${
+                                items
+                                    .map(
+                                        item =>
+                                            `<li>${item}</li>`
+                                    )
+                                    .join("")
+                            }
+                        </ul>
+                    `;
+
+                }
+            );
+
+
+        /* =========================
+           NUMBERED LISTS
+        ========================= */
+
+        html =
+            html.replace(
+                /(?:^|\n)((?:\s*\d+\.\s+.+(?:\n|$))+)/g,
+                function(match, block) {
+
+                    const items =
+                        block
+                            .split("\n")
+                            .map(line =>
+                                line
+                                    .replace(
+                                        /^\s*\d+\.\s+/,
+                                        ""
+                                    )
+                                    .trim()
+                            )
+                            .filter(Boolean);
+
+                    if (!items.length) {
+                        return match;
+                    }
+
+                    return `
+                        <ol>
+                            ${
+                                items
+                                    .map(
+                                        item =>
+                                            `<li>${item}</li>`
+                                    )
+                                    .join("")
+                            }
+                        </ol>
+                    `;
+
+                }
+            );
+
+
+        /* =========================
+           TABLES
+        ========================= */
+
+        html =
+            formatTables(html);
+
+
+        /* =========================
+           PARAGRAPHS
+        ========================= */
+
+        html =
+            html.replace(
+                /\n{2,}/g,
+                "</p><p>"
+            );
+
+
+        html =
+            html.replace(
+                /\n/g,
+                "<br>"
+            );
+
+
+        /* Avoid wrapping block elements */
+        html =
+            html.replace(
+                /<p><(h1|h2|h3|ul|ol|pre|table)/g,
+                "<$1"
+            );
+
+
+        html =
+            html.replace(
+                /(<\/h1>|<\/h2>|<\/h3>|<\/ul>|<\/ol>|<\/pre>|<\/table>)<\/p>/g,
+                "$1"
+            );
+
+
+        return `<p>${html}</p>`;
+
+    }
+
+
+    /* =========================================================
+       TABLE FORMATTER
+    ========================================================= */
+
+    function formatTables(html) {
+
+        const lines =
+            html.split("<br>");
+
+
+        let result = [];
+
+        let i = 0;
+
+
+        while (i < lines.length) {
+
+            const line =
+                lines[i].trim();
+
+
+            if (
+                line.startsWith("|") &&
+                line.endsWith("|") &&
+                i + 1 < lines.length &&
+                lines[i + 1].includes("---")
+            ) {
+
+                const header =
+                    parseTableRow(line);
+
+
+                i += 2;
+
+
+                let rows = [];
+
+
+                while (
+                    i < lines.length &&
+                    lines[i].trim().startsWith("|")
+                ) {
+
+                    rows.push(
+                        parseTableRow(
+                            lines[i].trim()
+                        )
+                    );
+
+                    i++;
+
+                }
+
+
+                let table =
+                    "<table><thead><tr>";
+
+
+                header.forEach(cell => {
+
+                    table +=
+                        `<th>${cell}</th>`;
+
+                });
+
+
+                table +=
+                    "</tr></thead><tbody>";
+
+
+                rows.forEach(row => {
+
+                    table += "<tr>";
+
+                    row.forEach(cell => {
+
+                        table +=
+                            `<td>${cell}</td>`;
+
+                    });
+
+                    table += "</tr>";
+
+                });
+
+
+                table +=
+                    "</tbody></table>";
+
+
+                result.push(table);
+
+                continue;
+
             }
 
 
-            const link =
-                document.createElement("a");
+            result.push(lines[i]);
 
-            link.href =
-                "http://127.0.0.1:5000/" + path;
-
-            link.target = "_blank";
-
-            link.click();
+            i++;
 
         }
 
-    </script>
+
+        return result.join("<br>");
+
+    }
+
+
+    /* =========================================================
+       PARSE TABLE ROW
+    ========================================================= */
+
+    function parseTableRow(row) {
+
+        return row
+            .trim()
+            .replace(/^\|/, "")
+            .replace(/\|$/, "")
+            .split("|")
+            .map(
+                cell => cell.trim()
+            );
+
+    }
+
+
+    /* =========================================================
+       ESCAPE HTML
+    ========================================================= */
+
+    function escapeHtml(text) {
+
+        const div =
+            document.createElement("div");
+
+        div.innerText = text;
+
+        return div.innerHTML;
+
+    }
+
+
+    /* =========================================================
+       DOWNLOAD
+    ========================================================= */
+
+    function downloadFile(type) {
+
+        const path =
+            type === "pdf"
+                ? pdfPath
+                : pptPath;
+
+
+        if (!path) {
+
+            alert(
+                "The file is not available."
+            );
+
+            return;
+
+        }
+
+
+        const endpoint =
+            type === "pdf"
+                ? "/download/pdf"
+                : "/download/ppt";
+
+
+        const url =
+            "http://127.0.0.1:5000" +
+            endpoint +
+            "?path=" +
+            encodeURIComponent(path);
+
+
+        const link =
+            document.createElement("a");
+
+
+        link.href = url;
+
+
+        link.download =
+            type === "pdf"
+                ? "ResearchX_AI_Report.pdf"
+                : "ResearchX_AI_Presentation.pptx";
+
+
+        document.body.appendChild(link);
+
+        link.click();
+
+        link.remove();
+
+    }
+
+
+    /* =========================================================
+       ENTER KEY
+    ========================================================= */
+
+    document
+        .getElementById("topic")
+        .addEventListener(
+            "keydown",
+            function(event) {
+
+                if (
+                    event.key === "Enter"
+                ) {
+
+                    event.preventDefault();
+
+                    generateResearch();
+
+                }
+
+            }
+        );
+
+</script>
 
 </body>
 </html>
-
